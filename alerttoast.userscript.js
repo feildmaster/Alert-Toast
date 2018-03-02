@@ -2,7 +2,7 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.3
+// @version      1.4
 // @author       feildmaster
 // @include      *
 // @noframes
@@ -60,12 +60,15 @@ const toast = (() => {
 
   const toasts = new Map();
   const root = (() => {
-    const el = document.createElement('div');
-    el.setAttribute('id', 'AlertToast');
-    applyCSS(el, style.root);
+    function create() {
+      const el = document.createElement('div');
+      el.setAttribute('id', 'AlertToast');
+      applyCSS(el, style.root);
 
-    const body = document.getElementsByTagName('body')[0];
-    body.insertBefore(el, body.firstChild);
+      const body = document.getElementsByTagName('body')[0];
+      body.insertBefore(el, body.firstChild);
+      return el;
+    }
 
     setInterval(() => { // TODO: don't always run a timer
       const now = Date.now();
@@ -75,7 +78,7 @@ const toast = (() => {
         toast.close();
       });
     }, 1000);
-    return el;
+    return document.getElementById('AlertToast') || create();
   })();
   let count = 0;
 
