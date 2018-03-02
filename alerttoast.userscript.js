@@ -2,13 +2,17 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.1
+// @version      1.2
 // @author       feildmaster
 // @include      *
 // @noframes
 // @grant        none
 // ==/UserScript==
 
+const config = {
+  title: false,
+  timeout: null,
+};
 const toast = (() => {
     const style = {
       root: {
@@ -108,6 +112,7 @@ const toast = (() => {
   window.alert = (text) => {
     const options = {
       text,
+      timeout: config.timeout,
     };
     toast(options);
   };
