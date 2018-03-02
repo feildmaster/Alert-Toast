@@ -2,7 +2,7 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.2
+// @version      1.3
 // @author       feildmaster
 // @include      *
 // @noframes
@@ -74,6 +74,9 @@ const toast = (() => {
   let count = 0;
 
   function Toast({text, css, buttons, timeout}) {
+    if (typeof arguments[0] === 'string') {
+      text = arguments[0];
+    }
     if (!text) return;
     const id = count++;
     const el = document.createElement('div');
