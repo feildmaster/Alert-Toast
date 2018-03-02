@@ -86,7 +86,9 @@ const toast = (() => {
     applyCSS(el, css);
 
     // Add title, body
-    el.textContent = text;
+    const body = document.createElement('span');
+    body.textContent = text;
+    el.appendChild(body);
     const toast = {
       close: () => {
         root.removeChild(el);
