@@ -2,7 +2,7 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.0
+// @version      1.1
 // @author       feildmaster
 // @include      *
 // @noframes
@@ -29,6 +29,7 @@ const toast = (() => {
         cursor: 'pointer',
         color: '#fafeff',
         margin: '4px',
+        'white-space': 'pre-line',
       },
       toast: {
         textShadow: '#3498db 1px 2px 1px',
