@@ -24,6 +24,12 @@ const toast = (() => {
       right: 0,
       zIndex: 1000,
     },
+    title: {
+      display: 'block',
+      fontSize: '15px',
+      'font-style': 'italic',
+      //width: '100%',
+    },
     shared: {
       display: 'inline-block',
       maxWidth: '320px',
@@ -73,7 +79,7 @@ const toast = (() => {
   })();
   let count = 0;
 
-  function Toast({text, css, buttons, timeout}) {
+  function Toast({title, text, css, buttons, timeout}) {
     if (typeof arguments[0] === 'string') {
       text = arguments[0];
     }
@@ -86,6 +92,13 @@ const toast = (() => {
     applyCSS(el, css);
 
     // Add title, body
+    if (title) {
+      const tel = document.createElement('span');
+      applyCSS(tel, style.title);
+      applyCSS(tel, title.css);
+      tel.textContent = title.text || title;
+      el.appendChild(tel);
+    }
     const body = document.createElement('span');
     body.textContent = text;
     el.appendChild(body);
@@ -119,5 +132,8 @@ window.alert = (text) => {
     text,
     timeout: config.timeout,
   };
+  if (config.title) {
+    options.title = `${location.host} says:`;
+  }
   toast(options);
 };
