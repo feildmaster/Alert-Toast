@@ -2,7 +2,7 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.4
+// @version      1.5
 // @author       feildmaster
 // @include      *
 // @noframes
@@ -141,7 +141,7 @@ window.alert = (text) => {
   toast(options);
 };
 
-if (!['Tampermonkey'].includes(GM_info.scriptHandler)) {
+if (!['Tampermonkey', 'Violentmonkey'].includes(GM_info.scriptHandler)) {
   toast({
     title: `${GM_info.scriptHandler} may not be supported`,
     text: 'Alert Toast may not be able to convert alerts with this script handler.',

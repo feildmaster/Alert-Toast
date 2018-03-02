@@ -8,5 +8,6 @@ Turn annoying alerts into toast messages that appear at the bottom right of your
 ## Supports
 
 - [Tampermonkey](https://tampermonkey.net/)
+- [Violentmonkey](https://violentmonkey.github.io/)
 
 Currently known not to support greasemonkey. Alerts don't get overridden.
