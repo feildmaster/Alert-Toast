@@ -140,3 +140,14 @@ window.alert = (text) => {
   }
   toast(options);
 };
+
+if (!['Tampermonkey'].includes(GM_info.scriptHandler)) {
+  toast({
+    title: `${GM_info.scriptHandler} may not be supported`,
+    text: 'Alert Toast may not be able to convert alerts with this script handler.',
+    css: {
+      background: '#c8354e',
+      textShadow: '#e74c3c 1px 2px 1px',
+    }
+  });
+}
