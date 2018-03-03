@@ -139,11 +139,9 @@ const toast = (() => {
 
     if (buttons) {
       // TODO: Add buttons
-      // Delete the generic "click" to dismiss cursor
-      delete el.style.cursor;
-    } else {
-      el.addEventListener('click', toast.close);
     }
+    
+    el.addEventListener('click', toast.close);
 
     root.appendChild(el);
     toasts.set(id, toast);
