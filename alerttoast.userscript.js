@@ -2,12 +2,17 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.5
+// @version      1.6
 // @author       feildmaster
 // @include      *
-// @noframes
+// @run-at       document-start
 // @grant        none
 // ==/UserScript==
+
+if (window !== window.top) {
+  window.alert = window.top.alert;
+  return;
+}
 
 const config = {
   title: false,
@@ -66,7 +71,14 @@ const toast = (() => {
       applyCSS(el, style.root);
 
       const body = document.getElementsByTagName('body')[0];
-      body.insertBefore(el, body.firstChild);
+      if (body) { // Depending on when the script is loaded... this might be null
+        body.appendChild(el);
+      } else {
+        window.addEventListener('load', () => {
+          if (document.getElementById(el.id)) return; // Another script may have created it already
+          document.getElementsByTagName('body')[0].appendChild(el);
+        });
+      }
       return el;
     }
 
