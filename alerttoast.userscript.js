@@ -2,11 +2,12 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.8
+// @version      1.9
 // @author       feildmaster
 // @include      *
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.0/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/tinycon/82accb1523cd96781cd943124a9698f6f072f342/tinycon.min.js
+// @exclude      https://raw.githubusercontent.com/*
 // @grant        none
 // ==/UserScript==
 
