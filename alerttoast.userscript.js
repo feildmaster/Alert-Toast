@@ -89,24 +89,26 @@ const toast = typeof SimpleToast !== 'undefined' ? SimpleToast : (() => {
   }
 
   const toasts = new Map();
-  const root = (() => {
+  let root = (() => {
     function create() {
       const el = document.createElement('div');
       el.setAttribute('id', 'AlertToast');
       applyCSS(el, style.root);
-
-      const body = document.getElementsByTagName('body')[0];
+      const body = document.body;
       if (body) { // Depending on when the script is loaded... this might be null
         body.appendChild(el);
       } else {
         window.addEventListener('load', () => {
-          if (document.getElementById(el.id)) return; // Another script may have created it already
-          document.getElementsByTagName('body')[0].appendChild(el);
+          const exists = document.getElementById(el.id);
+          if (exists) { // Another script may have created it already
+            root = exists;
+            return;
+          }
+          document.body.appendChild(el);
         });
       }
       return el;
     }
-
     setInterval(() => { // TODO: don't always run a timer
       const now = Date.now();
       toasts.forEach((toast) => {
@@ -119,24 +121,18 @@ const toast = typeof SimpleToast !== 'undefined' ? SimpleToast : (() => {
   })();
   let count = 0;
 
-  function Toast({title, text, css = {}, buttons, timeout}) {
-    if (typeof arguments[0] === 'string') {
-      text = arguments[0];
-    }
+  function Toast({title, text, css = {}, timeout}) {
     if (!text) return;
     const id = count++;
     const el = document.createElement('div');
-    el.setAttribute('id', `AlertToast-${id}`);
     applyCSS(el, style.shared);
     applyCSS(el, style.toast);
-    applyCSS(el, css.toast || css);
-
-    // Add title, body
+    applyCSS(el, css);
     if (title) {
       const tel = document.createElement('span');
       applyCSS(tel, style.title);
-      applyCSS(tel, title.css);
-      tel.textContent = title.text || title;
+      applyCSS(tel, css.title);
+      tel.textContent = title;
       el.appendChild(tel);
     }
     const body = document.createElement('span');
@@ -144,6 +140,7 @@ const toast = typeof SimpleToast !== 'undefined' ? SimpleToast : (() => {
     el.appendChild(body);
     const toast = {
       close: () => {
+        if (!toasts.has(id)) return;
         root.removeChild(el);
         toasts.delete(id);
       },
@@ -151,49 +148,13 @@ const toast = typeof SimpleToast !== 'undefined' ? SimpleToast : (() => {
     if (timeout) {
       toast.timeout = Date.now() + timeout;
     }
-
-    if (typeof buttons === 'object') {
-      if (!Array.isArray(buttons)) {
-        buttons = [buttons];
-      }
-      buttons.forEach((button) => {
-        if (!button.text) return;
-        const elb = document.createElement('button');
-        elb.innerHTML = button.text;
-        applyCSS(elb, style.button);
-        applyCSS(elb, css.button);
-        applyCSS(elb, button.css);
-        if (typeof button.onclick === 'function') {
-          elb.onclick = button.onclick;
-        }
-        let prev = {};
-        elb.onmouseover = () => {
-          // Apply default style
-          const original = applyCSS(elb, style.button.mouseOver);
-          // Apply CSS style
-          const custom = applyCSS(elb, css.button && css.button.mouseOver);
-          // Apply button style
-          const custom2 = applyCSS(elb, button.css && button.css.mouseOver);
-          // Remember the original styles, do this in reverse
-          Object.assign(prev, custom2, custom, original); 
-        };
-        elb.onmouseout = () => {
-          applyCSS(elb, prev);
-          prev = {};
-        };
-        el.appendChild(elb);
-      });
-    }
-    
     el.addEventListener('click', toast.close);
-
     root.appendChild(el);
     toasts.set(id, toast);
     return toast;
   }
   return Toast;
 })();
-
 let pending = 0;
 
 window.alert = (text) => {
@@ -221,7 +182,7 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;
   pending = 0;
   Tinycon.reset();
-})
+});
 
 if (!['Tampermonkey', 'Violentmonkey'].includes(GM_info.scriptHandler)) {
   toast({
