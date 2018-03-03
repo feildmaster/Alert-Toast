@@ -2,10 +2,10 @@
 // @name         Alert Toast
 // @namespace    https://feildmaster.com/
 // @description  Alerts suck, toasts don't
-// @version      1.9
+// @version      1.10
 // @author       feildmaster
 // @include      *
-// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.0/simpletoast.js
+// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/tinycon/82accb1523cd96781cd943124a9698f6f072f342/tinycon.min.js
 // @exclude      https://raw.githubusercontent.com/*
 // @grant        none
@@ -20,6 +20,12 @@ const config = {
   title: false,
   timeout: null,
   favicon: true,
+  css: {
+    toast: {
+      //style: 'value',
+    },
+    title: {},
+  },
 };
 
 let pending = 0;
@@ -28,6 +34,7 @@ window.alert = (text) => {
   const options = {
     text,
     timeout: config.timeout,
+    css: config.css,
   };
   if (config.title) {
     options.title = `${location.host} says:`;
