@@ -43,7 +43,6 @@ const toast = (() => {
       display: 'block',
       fontSize: '15px',
       'font-style': 'italic',
-      //width: '100%',
     },
     shared: {
       display: 'inline-block',
@@ -162,7 +161,6 @@ window.alert = (text) => {
   }
   toast(options);
 
-  console.log('Favicon:',config.favicon, document.visibilityState)
   if (config.favicon && document.visibilityState !== 'visible') {
     pending += 1;
     Tinycon.setBubble(pending);
