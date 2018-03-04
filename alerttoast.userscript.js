@@ -8,6 +8,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/tinycon/82accb1523cd96781cd943124a9698f6f072f342/tinycon.min.js
 // @exclude      https://raw.githubusercontent.com/*
+// @run-at       document-start
 // @grant        none
 // ==/UserScript==
 
